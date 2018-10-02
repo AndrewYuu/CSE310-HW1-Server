@@ -22,7 +22,8 @@ def createServer():
                 if words[1] in serverHashmap:
                     value = serverHashmap.get(words[1])
                     connectionSocket.send("200 OK\n".encode())
-                    connectionSocket.send(value + "\n".encode())
+                    connectionSocket.send(value.encode())
+                    connectionSocket.send("\n".encode())
                 else:
                     connectionSocket.send("404 NOT FOUND\n".encode())
             else:
