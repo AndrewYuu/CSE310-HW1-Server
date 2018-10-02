@@ -14,45 +14,46 @@ def createServer():
         #HASHMAP LOGIC
         clientInput = clientInput.replace('\r\n', '')
         words = clientInput.split(" ")
-
         #GET
         if words[0] == "GET":
             if len(words) == 2:
                 if words[1] in serverHashmap:
                     value = serverHashmap.get(words[1])
-                    connectionSocket.send("200 OK\n".encode())
+                    connectionSocket.send("HTTP/1.1 200 OK\n".encode())
                     connectionSocket.send(value.encode())
                     connectionSocket.send("\n".encode())
                 else:
-                    connectionSocket.send("404 NOT FOUND\n".encode())
+                    connectionSocket.send("HTTP/1.1 404 NOT FOUND\n".encode())
             else:
-                connectionSocket.send("400 BAD_REQUEST\n".encode())
-
-
+                connectionSocket.send("HTTP/1.1 400 BAD_REQUEST\n".encode())
         #PUT
         elif words[0] == "PUT":
            if len(words) == 3:
                serverHashmap[words[1]] = words[2]
-               connectionSocket.send("200 OK\n".encode())
+               connectionSocket.send("HTTP/1.1 200 OK\n".encode())
            else:
-               connectionSocket.send("400 BAD_REQUEST\n".encode())
+               connectionSocket.send("HTTP/1.1 400 BAD_REQUEST\n".encode())
 
         #DELETE
-        elif(words[0] == "DELETE"):
+        elif words[0] == "DELETE":
             if len(words) == 2:
                 del serverHashmap[words[1]]
             else:
-                connectionSocket.send("400 BAD_REQUEST\n".encode())
+                connectionSocket.send("HTTP/1.1 400 BAD_REQUEST\n".encode())
         #CLEAR
-        elif(words[0] == "CLEAR"):
-            serverHashmap.clear()
-            connectionSocket.send("Hello, this is CLEAR".encode())
+        elif words[0] == "CLEAR":
+            if len(words) == 1:
+                serverHashmap.clear()
+            else:
+                connectionSocket.send("HTTP/1.1 400 BAD_REQUEST\n".encode())
         #QUIT
-        elif(words[0] == "QUIT"):
-            connectionSocket.close()
-
+        elif words[0] == "QUIT":
+            if len(words) == 1:
+                connectionSocket.close()
+            else:
+                connectionSocket.send("HTTP/1.1 400 BAD_REQUEST\n".encode())
         else:
-            connectionSocket.send("200 UNSUPPORTED\n".encode())
+            connectionSocket.send("HTTP/1.1 200 UNSUPPORTED\n".encode())
 
     connectionSocket.close()
 
