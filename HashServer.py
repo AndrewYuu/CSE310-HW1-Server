@@ -31,7 +31,7 @@ def createServer():
 
         #PUT
         elif words[0] == "PUT":
-           if words[1] != None & words[2] != None:
+           if words[1] != None and words[2] != None:
                serverHashmap.put(words[1], words[2])
                connectionSocket.send("200 OK\n".encode())
            else:
