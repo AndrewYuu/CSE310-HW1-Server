@@ -13,27 +13,44 @@ def createServer():
         clientInput = connectionSocket.recv(1024).decode()
         # connectionSocket.send(sentence.upper().encode())
         #HASHMAP LOGIC
-        clientInput = clientInput.replace('\r\n', ' $ ')
+        clientInput = clientInput.replace('\r\n', '')
         words = clientInput.split(" ")
 
         #GET
-        if(words[0] == "GET"):
-            connectionSocket.send("Hello, this is GET".encode())
+        if words[0] == "GET":
+            if words[1] != None:
+                if words[1] in serverHashmap:
+                    value = serverHashmap.get(words[1])
+                    connectionSocket.send("200 OK\n".encode())
+                    connectionSocket.send(value + "\n".encode())
+                else:
+                    connectionSocket.send("404 NOT FOUND\n".encode())
+            else:
+                connectionSocket.send("400 BAD_REQUEST\n".encode())
+
 
         #PUT
-        if(words[0] == "PUT"):
-            connectionSocket.send("Hello, this is PUT".encode())
+        elif words[0] == "PUT":
+           if words[1] != None & words[2] != None:
+               serverHashmap.put(words[1], words[2])
+               connectionSocket.send("200 OK\n".encode())
+           else:
+               connectionSocket.send("400 BAD_REQUEST\n".encode())
 
         #DELETE
-        if(words[0] == "DELETE"):
-            connectionSocket.send("Hello, this is DELETE".encode())
+        elif(words[0] == "DELETE"):
+            if(words[1] != None):
+                serverHashmap.delete(words[1])
 
         #CLEAR
-        if(words[0] == "CLEAR"):
+        elif(words[0] == "CLEAR"):
             connectionSocket.send("Hello, this is CLEAR".encode())
         #QUIT
-        if(words[0] == "QUIT"):
+        elif(words[0] == "QUIT"):
             connectionSocket.close()
+
+        else:
+            connectionSocket.send("200 UNSUPPORTED\n".encode())
 
 if __name__ == "__main__":
     createServer()
