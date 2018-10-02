@@ -17,19 +17,19 @@ def createServer():
 
         #GET
         if(words[0] == "GET"):
-            print("Hello, this is GET")
-        
+            connectionSocket.send("Hello, this is GET".encode())
+
         #PUT
         if(words[0] == "PUT"):
-            print("Hello, this is PUT")
+            connectionSocket.send("Hello, this is PUT".encode())
 
         #DELETE
         if(words[0] == "DELETE"):
-            print("Hello, this is DELETE")
+            connectionSocket.send("Hello, this is DELETE".encode())
 
         #CLEAR
         if(words[0] == "CLEAR"):
-            print("Hello, this is CLEAR")
+            connectionSocket.send("Hello, this is CLEAR".encode())
         #QUIT
         if(words[0] == "QUIT"):
             connectionSocket.close()
