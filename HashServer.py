@@ -17,7 +17,7 @@ def createServer():
 
         #GET
         if words[0] == "GET":
-            if words[1]:
+            if len(words) == 2:
                 if words[1] in serverHashmap:
                     value = serverHashmap.get(words[1])
                     connectionSocket.send("200 OK\n".encode())
@@ -31,7 +31,7 @@ def createServer():
 
         #PUT
         elif words[0] == "PUT":
-           if words[1] and words[2]:
+           if len(words) == 3:
                serverHashmap[words[1]] = words[2]
                connectionSocket.send("200 OK\n".encode())
            else:
@@ -39,7 +39,7 @@ def createServer():
 
         #DELETE
         elif(words[0] == "DELETE"):
-            if words[1]:
+            if len(words) == 2:
                 serverHashmap.delete(words[1])
             else:
                 connectionSocket.send("400 BAD_REQUEST\n".encode())
@@ -55,6 +55,6 @@ def createServer():
             connectionSocket.send("200 UNSUPPORTED\n".encode())
 
     connectionSocket.close()
-    
+
 if __name__ == "__main__":
     createServer()
