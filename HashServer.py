@@ -40,7 +40,7 @@ def createServer():
         #DELETE
         elif(words[0] == "DELETE"):
             if len(words) == 2:
-                serverHashmap.delete(words[1])
+                del serverHashmap[words[1]]
             else:
                 connectionSocket.send("400 BAD_REQUEST\n".encode())
         #CLEAR
