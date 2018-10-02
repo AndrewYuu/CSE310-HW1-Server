@@ -1,7 +1,7 @@
 from socket import *
 
 def createServer():
-    serverHashmap = { }
+    serverHashmap = {}
     serverPort = 12000
     serverSocket = socket(AF_INET,SOCK_STREAM)
     serverSocket.bind(('', serverPort))
@@ -13,6 +13,7 @@ def createServer():
         clientInput = connectionSocket.recv(1024).decode()
         # connectionSocket.send(sentence.upper().encode())
         #HASHMAP LOGIC
+        clientInput = clientInput.replace('\r\n', ' $ ')
         words = clientInput.split(" ")
 
         #GET
