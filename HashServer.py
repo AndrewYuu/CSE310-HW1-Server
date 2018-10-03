@@ -19,7 +19,7 @@ def createServer():
             if len(words) == 2:
                 if words[1] in serverHashmap:
                     value = serverHashmap.get(words[1])
-                    connectionSocket.send("HTTP/1.1 200 OK\n".encode())
+                    connectionSocket.send("HTTP/1.1 200 OK\n\n".encode())
                     connectionSocket.send(value.encode())
                     connectionSocket.send("\n".encode())
                 else:
