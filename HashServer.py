@@ -37,8 +37,11 @@ def createServer():
         #DELETE
         elif words[0] == "DELETE":
             if len(words) == 2:
-                del serverHashmap[words[1]]
-                connectionSocket.send("HTTP/1.1 200 OK\n".encode())
+                if words[1] in serverHashmap:
+                    del serverHashmap[words[1]]
+                    connectionSocket.send("HTTP/1.1 200 OK\n".encode())
+                else:
+                    connectionSocket.send("HTTP/1.1 200 OK\n".encode())
             else:
                 connectionSocket.send("HTTP/1.1 400 BAD_REQUEST\n".encode())
         #CLEAR
